@@ -1,0 +1,136 @@
+{
+  "templateType" : "app",
+  "label" : "Einstein Case Classification Value",
+  "name" : "cc_value",
+  "namespace" : "ailabs",
+  "description" : "Einstein Case Classification Value gives you insights into the accuracy of your Case Classification set up. Configure predicted fields and dimensions , track performance over time, spot areas of improvements and estimate time and money saved!",
+  "tags" : [
+    "Einstein Case Classification",
+    "Service Cloud Einstein",
+    "Performance"
+  ],
+  "customAttributes" : [
+    {
+      "label" : "Features",
+      "values" : [
+        "Desktop",
+        "Case Classification Performance",
+        "Business Value",
+        "Field-Level Performance"
+      ]
+    },
+    {
+      "label" : "Generates",
+      "values" : [
+        "1 Dashboard",
+        "3 Datasets",
+        "1 Dataflow"
+      ]
+    }
+  ],
+  "assetVersion" : 57.0,
+  "variableDefinition" : "variables.json",
+  "uiDefinition" : "ui.json",
+  "rules" : [
+    {
+      "type" : "templateToApp",
+      "file" : "template-to-app-rules.json"
+    },
+    {
+      "type" : "appToTemplate",
+      "file" : "app-to-template-rules.json"
+    }
+  ],
+  "releaseInfo" : {
+    "templateVersion" : "1.4",
+    "notesFile" : "releaseNotes.html"
+  },
+  "folderDefinition" : "folder.json",
+  "externalFiles" : [ ],
+  "lenses" : [ ],
+  "dashboards" : [
+    {
+      "label" : "Einstein CC",
+      "name" : "Einstein_CC_tp",
+      "condition" : "${Variables.Overrides.createAllDashboards}",
+      "file" : "dashboards/Einstein_CC.json"
+    }
+  ],
+  "eltDataflows" : [
+    {
+      "label" : "cc-insights-no-lookup-fields",
+      "name" : "cc_insights_no_lookup_fields",
+      "condition" : "${Variables.Overrides.createDataflow && (Variables.CC_LookUp_NumFields==0)}",
+      "file" : "dataflow/cc_insights_no_lookup_fields.json"
+    },
+    {
+      "label" : "cc-insights-1-lookup-field",
+      "name" : "cc_insights_1_lookup_field",
+      "condition" : "${Variables.Overrides.createDataflow && (Variables.CC_LookUp_NumFields==1)}",
+      "file" : "dataflow/cc_insights_1_lookup_field.json"
+    },
+    {
+      "label" : "cc-insights-2-lookup-fields",
+      "name" : "cc_insights_2_lookup_fields",
+      "condition" : "${Variables.Overrides.createDataflow && (Variables.CC_LookUp_NumFields==2)}",
+      "file" : "dataflow/cc_insights_2_lookup_fields.json"
+    },
+    {
+      "label" : "cc-insights-3-lookup-fields",
+      "name" : "cc_insights_3_lookup_fields",
+      "condition" : "${Variables.Overrides.createDataflow && (Variables.CC_LookUp_NumFields==3)}",
+      "file" : "dataflow/cc_insights_3_lookup_fields.json"
+    }
+  ],
+  "recipes" : [ ],
+  "datasetFiles" : [
+    {
+      "label" : "AIInsightValue",
+      "name" : "AIInsightValue_tp",
+      "condition" : "${Variables.Overrides.createAllDatasetFiles}",
+      "userXmd" : "dataset_files/AIInsightValue_XMD.json"
+    },
+    {
+      "label" : "AIRecordInsights",
+      "name" : "AIRecordInsights_tp",
+      "condition" : "${Variables.Overrides.createAllDatasetFiles}",
+      "userXmd" : "dataset_files/AIRecordInsights_XMD.json"
+    },
+    {
+      "label" : "Case",
+      "name" : "Case_tp",
+      "condition" : "${Variables.Overrides.createAllDatasetFiles}",
+      "userXmd" : "dataset_files/Case_XMD.json"
+    }
+  ],
+  "storedQueries" : [ ],
+  "imageFiles" : [ ],
+  "extendedTypes" : { },
+  "templateDependencies" : [ ],
+  "icons" : {
+    "appBadge" : {
+      "name" : "12.png"
+    },
+    "templateBadge" : {
+      "name" : "default.png"
+    },
+    "templatePreviews" : [
+      {
+        "name" : "business_value1",
+        "namespace" : "ailabs",
+        "label" : "Business Value",
+        "description" : "Estimate time and cost savings"
+      },
+      {
+        "name" : "field_performance_top",
+        "namespace" : "ailabs",
+        "label" : "Case Classification Performance at Field level",
+        "description" : "Identify strenght and weakness in your Case Classificaiton set up"
+      }
+    ]
+  },
+  "apexCallback" : {
+    "namespace" : "ailabs",
+    "name" : "CCAnalyticsWaveTemplateConfig"
+  }
+}

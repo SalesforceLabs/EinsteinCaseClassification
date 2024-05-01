@@ -1,0 +1,85 @@
+{
+    "dates": [],
+    "derivedDimensions": [],
+    "derivedMeasures": [],
+    "dimensions": [
+      {
+        "conditionalFormatting": {},
+        "customActions": [],
+        "field": "RI.Case.Id",
+        "linkTemplateEnabled": true,
+        "members": [],
+        "recordDisplayFields": [
+          "RI.Case.Id"
+        ],
+        "recordIdField": "RI.Case.Id",
+        "salesforceActions": [],
+        "salesforceActionsEnabled": false
+      },
+      {
+        "conditionalFormatting": {},
+        "customActions": [],
+        "field": "RecommendationOutcome",
+        "members": [
+          {
+            "label": "AT Correct",
+            "member": "AutoTriagedCorrect"
+          },
+          {
+            "label": "AT Incorrect",
+            "member": "AutoTriagedIncorrect"
+          },
+          {
+            "label": "Top1",
+            "member": "Top1 Accurate"
+          },
+          {
+            "label": "Top3",
+            "member": "Top3 Accurate"
+          }
+        ],
+        "recordDisplayFields": [],
+        "salesforceActions": []
+      },
+      {
+        "conditionalFormatting": {
+          "chartColor": {
+            "parameters": {
+              "values": [
+                {
+                  "formatValue": "#00B531",
+                  "value": "AT Correct"
+                },
+                {
+                  "formatValue": "#FF4D40",
+                  "value": "AT Incorrect"
+                },
+                {
+                  "formatValue": "#DB2B20",
+                  "value": "Inaccurate"
+                },
+                {
+                  "formatValue": "#95FFB0",
+                  "value": "Top1"
+                },
+                {
+                  "formatValue": "#E8963B",
+                  "value": "Top3"
+                }
+              ]
+            },
+            "referenceField": "RI.RIOutcome",
+            "type": "categories"
+          }
+        },
+        "customActions": [],
+        "field": "RI.RIOutcome",
+        "members": [],
+        "recordDisplayFields": [],
+        "salesforceActions": []
+      }
+    ],
+    "measures": [],
+    "organizations": [],
+    "showDetailsDefaultFields": []
+  }

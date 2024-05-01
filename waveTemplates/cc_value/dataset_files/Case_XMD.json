@@ -1,0 +1,73 @@
+{
+    "dates": [],
+    "derivedDimensions": [],
+    "derivedMeasures": [],
+    "dimensions": [
+      {
+        "conditionalFormatting": {
+          "chartColor": {
+            "parameters": {
+              "values": [
+                {
+                  "formatValue": "#00B531",
+                  "value": "AT Correct"
+                },
+                {
+                  "formatValue": "#FF4D40",
+                  "value": "AT Incorrect"
+                },
+                {
+                  "formatValue": "#DB2B20",
+                  "value": "Inaccurate"
+                },
+                {
+                  "formatValue": "#95FFB0",
+                  "value": "Top1"
+                },
+                {
+                  "formatValue": "#E8963B",
+                  "value": "Top3"
+                },
+                {
+                  "formatValue": "#4269E9",
+                  "value": "Overall"
+                }
+              ]
+            },
+            "referenceField": "CaseOutcome",
+            "type": "categories"
+          }
+        },
+        "customActions": [],
+        "field": "CaseOutcome",
+        "members": [],
+        "recordDisplayFields": [],
+        "salesforceActions": []
+      }
+    ],
+    "measures": [
+      {
+        "field": "Outcomes.PicklistsAutoTriaged",
+        "format": {
+          "delimiters": {}
+        },
+        "label": "PicklistsAutoTriaged"
+      },
+      {
+        "field": "Outcomes.PicklistsInTop3",
+        "format": {
+          "delimiters": {}
+        },
+        "label": "PicklistsInTop3"
+      },
+      {
+        "field": "Outcomes.PicklistsInaccurate",
+        "format": {
+          "delimiters": {}
+        },
+        "label": "PicklistsInaccurate"
+      }
+    ],
+    "organizations": [],
+    "showDetailsDefaultFields": []
+  }

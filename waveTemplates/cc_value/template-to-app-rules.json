@@ -1,0 +1,649 @@
+{
+  "constants" : [ ],
+  "macros" : [ ],
+  "rules" : [
+    {
+      "name": "CaseDigest",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "*"
+        }
+      ],
+      "actions": [
+        { 
+          "action": "set",
+          "description": "A desc",
+          "path": "$.workflowDefinition.Extract_Cases.parameters.fields",
+          "value": "${array:union(Rules.CurrentNode, array:forEach(Variables.All_CC_Fields, '{\"name\": \"${var}\"}'))}"
+        },
+        { 
+          "action": "set",
+          "description": "A desc",
+          "path": "$.workflowDefinition.Extract_Cases.parameters.fields",
+          "value": "${array:union(Rules.CurrentNode, array:forEach(Variables.All_FilterDimension_Fields, '{\"name\": \"${var}\"}'))}"
+        }
+      ]
+    },
+    {
+      "name": "Extract_Object_1_For_1_Lookup_Field",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "cc_insights_1_lookup_field"
+        }
+      ],
+      "condition": "${Variables.CC_LookUp_NumFields == 1}",
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set first lookup cc field as object",
+          "path": "$.workflowDefinition.Extract_Object_1.parameters.object",
+          "value": "${Variables.All_Selected_LookUp_Fields_Object_Names[0]}"
+        }
+      ]
+    },
+    {
+      "name": "Extract_Object_1_For_2_Lookup_Fields",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "cc_insights_2_lookup_fields"
+        }
+      ],
+      "condition": "${Variables.CC_LookUp_NumFields == 2}",
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set first lookup cc field as object",
+          "path": "$.workflowDefinition.Extract_Object_1.parameters.object",
+          "value": "${Variables.All_Selected_LookUp_Fields_Object_Names[0]}"
+        }
+      ]
+    },
+    {
+      "name": "Extract_Object_1_For_3_Lookup_Fields",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "cc_insights_3_lookup_fields"
+        }
+      ],
+      "condition": "${Variables.CC_LookUp_NumFields == 3}",
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set first lookup cc field as object",
+          "path": "$.workflowDefinition.Extract_Object_1.parameters.object",
+          "value": "${Variables.All_Selected_LookUp_Fields_Object_Names[0]}"
+        }
+      ]
+    },
+    {
+      "name": "Extract_Object_2_For_2_Lookup_Fields",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "cc_insights_2_lookup_fields"
+        }
+      ],
+      "condition": "${Variables.CC_LookUp_NumFields == 2}",
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set second lookup cc field as object",
+          "path": "$.workflowDefinition.Extract_Object_2.parameters.object",
+          "value": "${Variables.All_Selected_LookUp_Fields_Object_Names[1]}"
+        }
+      ]
+    },
+    {
+      "name": "Extract_Object_2_For_3_Lookup_Fields",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "cc_insights_3_lookup_fields"
+        }
+      ],
+      "condition": "${Variables.CC_LookUp_NumFields == 3}",
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set second lookup cc field as object",
+          "path": "$.workflowDefinition.Extract_Object_2.parameters.object",
+          "value": "${Variables.All_Selected_LookUp_Fields_Object_Names[1]}"
+        }
+      ]
+    },
+    {
+      "name": "Extract_Object_3_For_3_Lookup_Fields",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "cc_insights_3_lookup_fields"
+        }
+      ],
+      "condition": "${Variables.CC_LookUp_NumFields == 3}",
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set third lookup cc field as object",
+          "path": "$.workflowDefinition.Extract_Object_3.parameters.object",
+          "value": "${Variables.All_Selected_LookUp_Fields_Object_Names[2]}"
+        }
+      ]
+    },
+    {
+      "name": "Join_AIIV_With_ActualLookup1_For_1_Lookup_Field",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "cc_insights_1_lookup_field"
+        }
+      ],
+      "condition": "${Variables.CC_LookUp_NumFields == 1}",
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set first lookup cc field as a left key in the join with AIIV",
+          "path": "$.workflowDefinition.Join_AIIV_With_ActualLookup1.parameters.left_key",
+          "value": ["RI.Case.${Variables.All_Selected_LookUp_Fields_List[0]}"]
+        }
+      ]
+    },
+    {
+      "name": "Join_AIIV_With_ActualLookup1_For_2_Lookup_Field",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "cc_insights_2_lookup_fields"
+        }
+      ],
+      "condition": "${Variables.CC_LookUp_NumFields == 2}",
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set first lookup cc field as a left key in the join with AIIV",
+          "path": "$.workflowDefinition.Join_AIIV_With_ActualLookup1.parameters.left_key",
+          "value": ["RI.Case.${Variables.All_Selected_LookUp_Fields_List[0]}"]
+        }
+      ]
+    },
+    {
+      "name": "Join_AIIV_With_ActualLookup1_For_3_Lookup_Field",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "cc_insights_3_lookup_fields"
+        }
+      ],
+      "condition": "${Variables.CC_LookUp_NumFields == 3}",
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set first lookup cc field as a left key in the join with AIIV",
+          "path": "$.workflowDefinition.Join_AIIV_With_ActualLookup1.parameters.left_key",
+          "value": ["RI.Case.${Variables.All_Selected_LookUp_Fields_List[0]}"]
+        }
+      ]
+    },
+    {
+      "name": "Join_AIIV_With_ActualLookup2_For_2_Lookup_Fields",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "cc_insights_2_lookup_fields"
+        }
+      ],
+      "condition": "${Variables.CC_LookUp_NumFields == 2}",
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set second lookup cc field as a left key in the join with AIIV",
+          "path": "$.workflowDefinition.Join_AIIV_With_ActualLookup2.parameters.left_key",
+          "value": ["RI.Case.${Variables.All_Selected_LookUp_Fields_List[1]}"]
+        }
+      ]
+    },
+    {
+      "name": "Join_AIIV_With_ActualLookup2_For_3_Lookup_Fields",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "cc_insights_3_lookup_fields"
+        }
+      ],
+      "condition": "${Variables.CC_LookUp_NumFields == 3}",
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set second lookup cc field as a left key in the join with AIIV",
+          "path": "$.workflowDefinition.Join_AIIV_With_ActualLookup2.parameters.left_key",
+          "value": ["RI.Case.${Variables.All_Selected_LookUp_Fields_List[1]}"]
+        }
+      ]
+    },
+    {
+      "name": "Join_AIIV_With_ActualLookup3_For_3_Lookup_Fields",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "cc_insights_3_lookup_fields"
+        }
+      ],
+      "condition": "${Variables.CC_LookUp_NumFields == 3}",
+      "actions": [
+        {
+          "action": "set",
+          "description": "Set third lookup cc field as a left key in the join with AIIV",
+          "path": "$.workflowDefinition.Join_AIIV_With_ActualLookup3.parameters.left_key",
+          "value": ["RI.Case.${Variables.All_Selected_LookUp_Fields_List[2]}"]
+        }
+      ]
+    },
+    {
+      "name": "ComputeRecommendation_For_0_Lookup_Field",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "cc_insights_no_lookup_fields"
+        }
+      ],
+      "condition": "${Variables.CC_LookUp_NumFields == 0}",
+      "actions": [
+        { 
+          "action": "set",
+          "description": "A desc",
+          "path": "$.workflowDefinition.Compute_Recommendation.parameters.computedFields[?(@.name=='Recommendation')].saqlExpression",
+          "value": "${Variables.Computed_RecommendationCaseStatement}"
+        }
+      ]
+    },
+    {
+      "name": "ComputeRecommendation_For_1_Lookup_Field",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "cc_insights_1_lookup_field"
+        }
+      ],
+      "condition": "${Variables.CC_LookUp_NumFields == 1}",
+      "actions": [
+        { 
+          "action": "set",
+          "description": "A desc",
+          "path": "$.workflowDefinition.Compute_Recommendation.parameters.computedFields[?(@.name=='Recommendation')].saqlExpression",
+          "value": "${Variables.Computed_RecommendationCaseStatement}"
+        }
+      ]
+    },
+    {
+      "name": "ComputeRecommendation_For_2_Lookup_Fields",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "cc_insights_2_lookup_fields"
+        }
+      ],
+      "condition": "${Variables.CC_LookUp_NumFields == 2}",
+      "actions": [
+        { 
+          "action": "set",
+          "description": "A desc",
+          "path": "$.workflowDefinition.Compute_Recommendation.parameters.computedFields[?(@.name=='Recommendation')].saqlExpression",
+          "value": "${Variables.Computed_RecommendationCaseStatement}"
+        }
+      ]
+    },
+    {
+      "name": "ComputeRecommendation_For_3_Lookup_Fields",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "cc_insights_3_lookup_fields"
+        }
+      ],
+      "condition": "${Variables.CC_LookUp_NumFields == 3}",
+      "actions": [
+        { 
+          "action": "set",
+          "description": "A desc",
+          "path": "$.workflowDefinition.Compute_Recommendation.parameters.computedFields[?(@.name=='Recommendation')].saqlExpression",
+          "value": "${Variables.Computed_RecommendationCaseStatement}"
+        }
+      ]
+    },
+    {
+      "name": "Join_AIRecordInsight_Case",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "*"
+        }
+      ],
+      "actions": [
+        { 
+          "action": "set",
+          "description": "A desc",
+          "path": "$.workflowDefinition.Join_AIRecordInsight_Case.parameters.right_select",
+          "value": "${array:union(Rules.CurrentNode, array:forEach(Variables.All_CC_Fields, '${var}'))}"
+        },
+        { 
+          "action": "set",
+          "description": "A desc",
+          "path": "$.workflowDefinition.Join_AIRecordInsight_Case.parameters.right_select",
+          "value": "${array:union(Rules.CurrentNode, array:forEach(Variables.All_FilterDimension_Fields, '${var}'))}"
+        }
+      ]
+    },
+    {
+      "name": "Join_IV_With_RI",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "*"
+        }
+      ],
+      "actions": [
+        { 
+          "action": "set",
+          "description": "A desc",
+          "path": "$.workflowDefinition.Join_IV_With_RI.parameters.right_select",
+          "value": "${array:union(Rules.CurrentNode, array:forEach(Variables.All_CC_Fields, 'Case.${var}'))}"
+        },
+        { 
+          "action": "set",
+          "description": "A desc",
+          "path": "$.workflowDefinition.Join_IV_With_RI.parameters.right_select",
+          "value": "${array:union(Rules.CurrentNode, array:forEach(Variables.All_FilterDimension_Fields, 'Case.${var}'))}"
+        }
+      ]
+    },
+    {
+      "name": "ComputeActualAndSetThresholds",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "*"
+        }
+      ],
+      "actions": [
+        { 
+          "action": "set",
+          "description": "A desc",
+          "path": "$.workflowDefinition.ComputeActualAndSetThresholds.parameters.computedFields[?(@.name=='Actual')].saqlExpression",
+          "value": "${Variables.Computed_ActualCaseStatement}"
+        },
+        { 
+          "action": "set",
+          "description": "A desc",
+          "path": "$.workflowDefinition.ComputeActualAndSetThresholds.parameters.computedFields[?(@.name=='AutoTriageConfidenceThreshold')].saqlExpression",
+          "value": "${Variables.Computed_ConfidenceCaseStatement}"
+        }
+      ]
+    },
+
+    {
+      "name": "PredictionLabels",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "*"
+        }
+      ],
+      "actions": [
+        { 
+          "action": "set",
+          "description": "Labels for All Prediction Fields",
+          "path": "$.workflowDefinition.ComputeRIOutcome.parameters.computedFields[?(@.name=='PredictionLabel')].saqlExpression",
+          "value": "${Variables.Computed_PredictorLabel_Statement}"
+        }
+      ]
+    },
+
+    {
+      "name": "FilterRIsToSelectedCCFields",
+      "appliesTo": [
+        {
+          "type": "workflow",
+          "name": "*"
+        }
+      ],
+      "actions": [
+        { 
+          "action": "set",
+          "description": "A desc",
+          "path": "$.workflowDefinition.FilterRIsToSelectedCCFields.parameters.saqlFilter",
+          "value": "${Variables.Computed_RIFilterStatement}"
+        }
+      ]
+    },
+
+    {
+      "name": "AutoTriagingDefinitionReplacement",
+      "appliesTo": [
+        {
+          "type": "workflow",
+            "name": "*"
+        }
+      ],
+      "actions": [      
+        { 
+          "action": "replace",
+          "key": "'Outcomes.PicklistsAutoTriaged' < 2",
+          "value": "'Outcomes.PicklistsAutoTriaged' < ${Variables.CC_NumFields}"
+        },
+        { 
+          "action": "replace",
+          "key": "'Outcomes.PicklistsAutoTriaged' == 2",
+          "value": "'Outcomes.PicklistsAutoTriaged' == ${Variables.CC_NumFields}"
+        }
+      ]
+    },
+
+    {
+      "name": "DimensionFiltersMassReplace",
+      "appliesTo": [
+        {
+          "type": "dashboard",
+            "name": "Einstein_CC_tp"
+        }
+      ],
+      "actions": [
+        { 
+          "action": "replace",
+          "key": "DIMENSION1_PLACEHOLDER",
+          "value": "${Variables.FilterDimension1.fieldName}"
+        },
+        { 
+          "action": "set",
+          "description": "set filter title",
+          "path": "$.state.widgets.listselector_3.parameters.title",
+          "value": "${Variables.FilterDimension1.fieldLabel}"
+        },
+        { 
+          "action": "set",
+          "description": "set filter title",
+          "path": "$.state.widgets.listselector_3.parameters.displayTemplate",
+          "value": "[Case.${Variables.FilterDimension1.fieldName}]"
+        },
+        { 
+          "action": "replace",
+          "key": "DIMENSION2_PLACEHOLDER",
+          "value": "${Variables.FilterDimension2.fieldName}"
+        },
+        { 
+          "action": "set",
+          "description": "set filter title",
+          "path": "$.state.widgets.listselector_2.parameters.title",
+          "value": "${Variables.FilterDimension2.fieldLabel}"
+        },
+        { 
+          "action": "set",
+          "description": "set filter title",
+          "path": "$.state.widgets.listselector_2.parameters.displayTemplate",
+          "value": "[Case.${Variables.FilterDimension2.fieldName}]"
+        },
+        { 
+          "action": "replace",
+          "key": "DIMENSION3_PLACEHOLDER",
+          "value": "${Variables.FilterDimension3.fieldName}"
+        },
+        { 
+          "action": "set",
+          "description": "set filter title",
+          "path": "$.state.widgets.listselector_4.parameters.title",
+          "value": "${Variables.FilterDimension3.fieldLabel}"
+        },
+        { 
+          "action": "set",
+          "description": "set filter title",
+          "path": "$.state.widgets.listselector_4.parameters.displayTemplate",
+          "value": "[Case.${Variables.FilterDimension3.fieldName}]"
+        },
+        { 
+          "action": "replace",
+          "key": "DIMENSION4_PLACEHOLDER",
+          "value": "${Variables.FilterDimension4.fieldName}"
+        },
+        { 
+          "action": "set",
+          "description": "set filter title",
+          "path": "$.state.widgets.listselector_5.parameters.title",
+          "value": "${Variables.FilterDimension4.fieldLabel}"
+        },
+        { 
+          "action": "set",
+          "description": "set filter title",
+          "path": "$.state.widgets.listselector_5.parameters.displayTemplate",
+          "value": "[Case.${Variables.FilterDimension4.fieldName}]"
+        }
+      ]
+    },
+
+    {
+      "name": "ValueAsumptions",
+      "appliesTo": [
+        {
+          "type": "dashboard",
+          "name": "Einstein_CC_tp"
+        }
+      ],
+      "actions": [
+        { 
+          "action": "set",
+          "description": "Seconds Saved due to AutoTriaging",
+          "path": "$.state.steps.ValueAssumptions.values[0].AutoTriageSecondsSaved",
+          "value": "${Variables.AutoTriageSecondsSaved}"
+        },
+        { 
+          "action": "set",
+          "description": "Seconds Saved due to Recommendation presented in the Top 3",
+          "path": "$.state.steps.ValueAssumptions.values[0].PartialTriageSecondsSaved",
+          "value": "${Variables.PartialTriageSecondsSaved}"
+        },
+        { 
+          "action": "set",
+          "description": "Agent-Hour cost",
+          "path": "$.state.steps.ValueAssumptions.values[0].AgentHourCost",
+          "value": "${Variables.AgentHourCost}"
+        }
+      ]
+    }, 
+    {
+      "name": "AutoTriagingDefinitionFilters",
+      "appliesTo": [
+        {
+          "type": "dashboard",
+            "name": "Einstein_CC_tp"
+        }
+      ],
+      "actions": [
+        { 
+          "action": "set",
+          "description": "SavingsCalculationQu_1 table",
+          "path": "$.state.steps.SavingsCalculationQu_1.query.query.columns[0].query.filters[0][1][0]",
+          "value": "[${Variables.CC_NumFields}]"
+        },
+        { 
+          "action": "set",
+          "description": "SavingsCalculationQu_1 table",
+          "path": "$.state.steps.SavingsCalculationQu_1.query.query.columns[5].query.filters[0][1][0]",
+          "value": "[${Variables.CC_NumFields}]"
+        },
+        
+        { 
+          "action": "replace",
+          "key": "'Outcomes.PicklistsAutoTriaged' < 2",
+          "value": "'Outcomes.PicklistsAutoTriaged' < ${Variables.CC_NumFields}"
+        },
+        { 
+          "action": "replace",
+          "key": "'Outcomes.PicklistsAutoTriaged' == 2",
+          "value": "'Outcomes.PicklistsAutoTriaged' == ${Variables.CC_NumFields}"
+        }
+      ]
+    },
+
+    {
+      "name": "RecordTableColumns",
+      "appliesTo": [
+        {
+          "type": "dashboard",
+            "name": "Einstein_CC_tp"
+        }
+      ],
+      "actions": [
+        { 
+          "action": "add",
+          "path": "$.state.steps.lens_1.query.query.values",
+          "index": 100,
+          "value": "RI.Case.${Variables.FilterDimension1.fieldName}"
+         },
+         { 
+          "action": "add",
+          "path": "$.state.steps.lens_1.query.query.values",
+          "index": 100,
+          "value": "RI.Case.${Variables.FilterDimension2.fieldName}"
+         },
+         { 
+          "action": "add",
+          "path": "$.state.steps.lens_1.query.query.values",
+          "index": 100,
+          "value": "RI.Case.${Variables.FilterDimension3.fieldName}"
+         },
+         { 
+          "action": "add",
+          "path": "$.state.steps.lens_1.query.query.values",
+          "index": 100,
+          "value": "RI.Case.${Variables.FilterDimension4.fieldName}"
+         }
+      ]
+    },
+    {
+      "name": "CurrencyCodeReplace",
+      "appliesTo": [
+        {
+          "type": "dashboard",
+            "name": "Einstein_CC_tp"
+        }
+      ],
+      "actions": [
+        { 
+          "action": "replace",
+          "key": "USD",
+          "value": "${Variables.Computed_CurrencyCode}"
+        }
+        
+      ]
+    } 
+  ]
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <namespacePrefix>ailabs</namespacePrefix>
+    <types>
+        <members>CCAnalyticsWaveTemplateConfig</members>
+        <members>CCAnalyticsWaveTemplateTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>business_value1</members>
+        <members>field_performance_top</members>
+        <name>StaticResource</name>
+    </types>
+    <types>
+        <members>cc_value</members>
+        <name>WaveTemplateBundle</name>
+    </types>
+    <version>58.0</version>
+</Package>

@@ -1,0 +1,548 @@
+{
+  "Overrides" : {
+    "label" : "Overrides",
+    "description" : "Internal configuration to allow asset creation overrides, not to be displayed in UI.",
+    "defaultValue" : {
+      "createAllDashboards" : true,
+      "createAllLenses" : true,
+      "createAllExternalFiles" : true,
+      "createDataflow" : true,
+      "createAllDatasetFiles" : true,
+      "createAllImages" : true
+    },
+    "required" : true,
+    "excludeSelected" : false,
+    "excludes" : [ ],
+    "variableType" : {
+      "required" : [
+        "createAllExternalFiles",
+        "createAllDashboards",
+        "createAllImages",
+        "createAllDatasetFiles",
+        "createAllLenses",
+        "createDataflow"
+      ],
+      "type" : "ObjectType",
+      "properties" : {
+        "createAllDashboards" : {
+          "type" : "BooleanType",
+          "enums" : [
+            true,
+            false
+          ]
+        },
+        "createAllLenses" : {
+          "type" : "BooleanType",
+          "enums" : [
+            true,
+            false
+          ]
+        },
+        "createAllExternalFiles" : {
+          "type" : "BooleanType",
+          "enums" : [
+            true,
+            false
+          ]
+        },
+        "createDataflow" : {
+          "type" : "BooleanType",
+          "enums" : [
+            true,
+            false
+          ]
+        },
+        "createAllDatasetFiles" : {
+          "type" : "BooleanType",
+          "enums" : [
+            true,
+            false
+          ]
+        },
+        "createAllImages" : {
+          "type" : "BooleanType",
+          "enums" : [
+            true,
+            false
+          ]
+        }
+      },
+      "strictValidation" : true
+    }
+  },
+  "CC_Field1": {
+    "label": "Choose Your First Field",
+    "description": "A Field with Case Classification enabled",
+    "required":true,
+    "excludeSelected": true,
+    "variableType" : {
+      "type":"SobjectFieldType"
+    },
+    "defaultValue":{
+      "fieldName":"",
+      "sobjectName":"Case"
+    }
+  },
+  "CC_Field1_Threshold": {
+    "label":"Enter Auto-Triage confidence threshold",
+    "description":"Check your CC settings. If you selected Automate, enter the confidence threshold",
+    "variableType": {
+      "type":"ArrayType",
+      "itemsType":{
+        "type": "StringType",
+        "enums":["Not AutoTriaging","50","55","60","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"]
+      },
+      "sizeLimit": {"max": 1}
+    }
+  },
+  "CC_Field2": {
+    "label": "Choose another Field",
+    "description": "",
+    "excludeSelected": true,
+    "variableType" : {
+      "type":"SobjectFieldType"
+    },
+    "defaultValue":{
+      "fieldName":"",
+      "sobjectName":"Case"
+    }
+  },
+  "CC_Field2_Threshold": {
+    "label":"Enter Auto-Triage confidence threshold",
+    "description":"Check your CC settings. If you selected Automate, enter the confidence threshold",
+    "variableType": {
+      "type":"ArrayType",
+      "itemsType":{
+        "type": "StringType",
+        "enums":["Not AutoTriaging","50","55","60","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"]
+      },
+      "sizeLimit": {"max": 1}
+      
+    }
+  },
+  "CC_Field3": {
+    "label": "Choose a Third Field",
+    "description": "",
+    "excludeSelected": true,
+    "variableType" : {
+      "type":"SobjectFieldType"
+    },
+    "defaultValue":{
+      "fieldName":"",
+      "sobjectName":"Case"
+    }
+  },
+  "CC_Field3_Threshold": {
+    "label":"Enter Auto-Triage confidence threshold",
+    "description":"Check your CC settings. If you selected Automate, enter the confidence threshold",
+    "variableType": {
+      "type":"ArrayType",
+      "itemsType":{
+        "type": "StringType",
+        "enums":["Not AutoTriaging","50","55","60","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"]
+      },
+      "sizeLimit": {"max": 1}
+      
+    }
+  },
+  "CC_Field4": {
+    "label": "Choose a Fourth Field",
+    "description": "",
+    "excludeSelected": true,
+    "variableType" : {
+      "type":"SobjectFieldType"
+    },
+    "defaultValue":{
+      "fieldName":"",
+      "sobjectName":"Case"
+    }
+  },
+  "CC_Field4_Threshold": {
+    "label":"Enter Auto-Triage confidence threshold",
+    "description":"Check your CC settings. If you selected Automate, enter the confidence threshold",
+    "variableType": {
+      "type":"ArrayType",
+      "itemsType":{
+        "type": "StringType",
+        "enums":["Not AutoTriaging","50","55","60","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"]
+      },
+      "sizeLimit": {"max": 1}
+      
+    }
+  },
+  "CC_Field5": {
+    "label": "Choose another Field",
+    "description": "",
+    "excludeSelected": true,
+    "variableType" : {
+      "type":"SobjectFieldType"
+    },
+    "defaultValue":{
+      "fieldName":"",
+      "sobjectName":"Case"
+    }
+  },
+  "CC_Field5_Threshold": {
+    "label":"Enter Auto-Triage confidence threshold",
+    "description":"Check your CC settings. If you selected Automate, enter the confidence threshold",
+    "variableType": {
+      "type":"ArrayType",
+      "itemsType":{
+        "type": "StringType",
+        "enums":["Not AutoTriaging","50","55","60","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"]
+      },
+      "sizeLimit": {"max": 1}
+      
+    }
+  },
+  "CC_Field6": {
+    "label": "Choose another Field",
+    "description": "",
+    "excludeSelected": true,
+    "variableType" : {
+      "type":"SobjectFieldType"
+    },
+    "defaultValue":{
+      "fieldName":"",
+      "sobjectName":"Case"
+    }
+  },
+  "CC_Field6_Threshold": {
+    "label":"Enter Auto-Triage confidence threshold",
+    "description":"Check your CC settings. If you selected Automate, enter the confidence threshold",
+    "variableType": {
+      "type":"ArrayType",
+      "itemsType":{
+        "type": "StringType",
+        "enums":["Not AutoTriaging","50","55","60","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"]
+      },
+      "sizeLimit": {"max": 1}
+      
+    }
+  },
+  "CC_Field7": {
+    "label": "Choose another Field",
+    "description": "",
+    "excludeSelected": true,
+    "variableType" : {
+      "type":"SobjectFieldType"
+    },
+    "defaultValue":{
+      "fieldName":"",
+      "sobjectName":"Case"
+    }
+  },
+  "CC_Field7_Threshold": {
+    "label":"Enter Auto-Triage confidence threshold",
+    "description":"Check your CC settings. If you selected Automate, enter the confidence threshold",
+    "variableType": {
+      "type":"ArrayType",
+      "itemsType":{
+        "type": "StringType",
+        "enums":["Not AutoTriaging","50","55","60","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"]
+      },
+      "sizeLimit": {"max": 1}
+      
+    }
+  },
+  "CC_Field8": {
+    "label": "Choose another Field",
+    "description": "",
+    "excludeSelected": true,
+    "variableType" : {
+      "type":"SobjectFieldType"
+    },
+    "defaultValue":{
+      "fieldName":"",
+      "sobjectName":"Case"
+    }
+  },
+  "CC_Field8_Threshold": {
+    "label":"Enter Auto-Triage confidence threshold",
+    "description":"Check your CC settings. If you selected Automate, enter the confidence threshold",
+    "variableType": {
+      "type":"ArrayType",
+      "itemsType":{
+        "type": "StringType",
+        "enums":["Not AutoTriaging","50","55","60","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"]
+      },
+      "sizeLimit": {"max": 1}
+      
+    }
+  },
+  "CC_Field9": {
+    "label": "Choose another Field",
+    "description": "",
+    "excludeSelected": true,
+    "variableType" : {
+      "type":"SobjectFieldType"
+    },
+    "defaultValue":{
+      "fieldName":"",
+      "sobjectName":"Case"
+    }
+  },
+  "CC_Field9_Threshold": {
+    "label":"Enter Auto-Triage confidence threshold",
+    "description":"Check your CC settings. If you selected Automate, enter the confidence threshold",
+    "variableType": {
+      "type":"ArrayType",
+      "itemsType":{
+        "type": "StringType",
+        "enums":["Not AutoTriaging","50","55","60","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"]
+      },
+      "sizeLimit": {"max": 1}
+      
+    }
+  },
+  "CC_Field10": {
+    "label": "Choose another Field",
+    "description": "",
+    "excludeSelected": true,
+    "variableType" : {
+      "type":"SobjectFieldType"
+    },
+    "defaultValue":{
+      "fieldName":"",
+      "sobjectName":"Case"
+    }
+  },
+  "CC_Field10_Threshold": {
+    "label":"Enter Auto-Triage confidence threshold",
+    "description":"Check your CC settings. If you selected Automate, enter the confidence threshold",
+    "variableType": {
+      "type":"ArrayType",
+      "itemsType":{
+        "type": "StringType",
+        "enums":["Not AutoTriaging","50","55","60","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"]
+      },
+      "sizeLimit": {"max": 1}
+    }
+  },
+  "Add_More_Fields": {
+    "label":"Would you like to add more fields?",
+    "description":"",
+    "variableType":{"type": "BooleanType"},
+    "defaultValue": false
+  },
+
+  "FilterDimension1": {
+    "label": "Choose a Dimension",
+    "description": "Geo, service team, priority, product family tend to be good choices",
+    "required": true,
+    "excludeSelected": true,
+    "variableType" : {
+      "type":"SobjectFieldType",
+      "dataType":"xsd:string"
+    },
+    "defaultValue":{
+      "fieldName":"",
+      "sobjectName":"Case"
+    }
+  },
+  "FilterDimension2": {
+    "label": "Choose a Dimension ",
+    "description": "Geo, service team, priority, product family tend to be good choices",
+    "required": true,
+    "excludeSelected": true,
+    "variableType" : {
+      "type":"SobjectFieldType",
+      "dataType":"xsd:string"
+    },
+    "defaultValue":{
+      "fieldName":"",
+      "sobjectName":"Case"
+    }
+  },
+  "FilterDimension3": {
+    "label": "Choose a Dimension ",
+    "description": "Geo, service team, priority, product family tend to be good choices",
+    "required": true,
+    "excludeSelected": true,
+    "variableType" : {
+      "type":"SobjectFieldType",
+      "dataType":"xsd:string"
+    },
+    "defaultValue":{
+      "fieldName":"",
+      "sobjectName":"Case"
+    }
+  },
+  "FilterDimension4": {
+    "label": "Choose a Dimension ",
+    "description": "Geo, service team, priority, product family tend to be good choices",
+    "required": true,
+    "excludeSelected": true,
+    "variableType" : {
+      "type":"SobjectFieldType",
+      "dataType":"xsd:string"
+    },
+    "defaultValue":{
+      "fieldName":"",
+      "sobjectName":"Case"
+    }
+  },
+  "AutoTriageSecondsSaved": {
+    "label": "How long does it take to manually triage a case?",
+    "description": "Number of seconds",
+    "defaultValue": 90,
+    "variableType": {
+      "type": "NumberType"
+    }
+  },
+  "PartialTriageSecondsSaved": {
+    "label": "If manual classification is needed, how long does it save to have the right recommendation in the 'top 3'?",
+    "description": "In seconds",
+    "defaultValue": 20,
+    "variableType": {
+      "type": "NumberType"
+    }
+  },
+  "AgentHourCost": {
+    "label": "How much does an Agent-Hour cost?",
+    "description": "For savings calculation only",
+    "defaultValue": 10,
+    "variableType": {
+      "type": "NumberType"
+    }
+  },
+  "CC_NumFields": {
+    "label": "Not used in Ui.json. populated by Apex after wizard ends and before app is created",
+    "description": "Total Number of CC fields selected by customer during set up",
+    "defaultValue": 10,
+    "variableType": {
+      "type": "NumberType"
+    }
+  },
+
+  "All_CC_Fields": {
+    "label": "Not used in Ui.json. populated by Apex after wizard ends and before app is created",
+    "description": "",
+    "required" : false,
+    "variableType": {
+      "type":"ArrayType",
+      "itemsType":{
+        "type": "StringType"
+      },
+      "sizeLimit": {"max": 10}
+      
+    }
+  },
+  "All_CC_Threshold_Fields": {
+    "label": "Not used in Ui.json. populated by Apex after wizard ends and before app is created",
+    "description": "",
+    "required" : false,
+    "variableType": {
+      "type":"ArrayType",
+      "itemsType":{
+        "type": "StringType"
+      },
+      "sizeLimit": {"max": 10}
+      
+    }
+  },
+  "All_FilterDimension_Fields": {
+    "label": "Not used in Ui.json. populated by Apex after wizard ends and before app is created",
+    "description": "",
+    "required" : false,
+    "variableType": {
+      "type":"ArrayType",
+      "itemsType":{
+        "type": "StringType"
+      },
+      "sizeLimit": {"max": 10}
+      
+    }
+  },
+  "All_Selected_LookUp_Fields_List": {
+    "label": "Not used in Ui.json. populated by Apex after wizard ends and before app is created",
+    "description": "",
+    "required" : false,
+    "variableType": {
+      "type":"ArrayType",
+      "itemsType":{
+        "type": "StringType"
+      },
+      "sizeLimit": {"max": 3}
+      
+    }
+  },
+
+  "All_Selected_LookUp_Fields_Object_Names": {
+    "label": "Not used in Ui.json. populated by Apex after wizard ends and before app is created",
+    "description": "",
+    "required" : false,
+    "variableType": {
+      "type":"ArrayType",
+      "itemsType":{
+        "type": "StringType"
+      },
+      "sizeLimit": {"max": 3}
+      
+    }
+  },
+
+  "CC_LookUp_NumFields": {
+    "label": "Not used in Ui.json. populated by Apex after wizard ends and before app is created",
+    "description": "Total Number of LookUp CC fields selected by customer during set up",
+    "defaultValue": 0,
+    "variableType": {
+      "type": "NumberType"
+    }
+  },
+  
+  "Computed_ActualCaseStatement": {
+    "label": "Not used in Ui.json. populated by Apex after wizard ends and before app is created",
+    "description": "",
+    "defaultValue": null,
+    "variableType": {
+      "type": "StringType"
+    }
+  },
+
+  "Computed_ConfidenceCaseStatement": {
+    "label": "Not used in Ui.json. populated by Apex after wizard ends and before app is created",
+    "description": "",
+    "defaultValue": null,
+    "variableType": {
+      "type": "StringType"
+    }
+  },
+  
+  "Computed_RecommendationCaseStatement": {
+    "label": "Not used in Ui.json. populated by Apex after wizard ends and before app is created",
+    "description": "",
+    "defaultValue": null,
+    "variableType": {
+      "type": "StringType"
+    }
+  },
+  
+  "Computed_PredictorLabel_Statement":{
+    "label":"Not used in Ui.json. populated by Apex after wizard ends and before app is created",
+    "description":"Not used in Ui.json. populated by Apex after wizard ends and before app is created",
+    "required":false,
+    "defaultValue":"",
+    "variableType": {
+        "type":"StringType"
+    }
+  },
+  
+  "Computed_RIFilterStatement": {
+    "label": "Not used in Ui.json. populated by Apex after wizard ends and before app is created",
+    "description": "",
+    "defaultValue": null,
+    "variableType": {
+      "type": "StringType"
+    }
+  },
+  "Computed_CurrencyCode": {
+    "label": "Not used in Ui.json. populated by Apex after wizard ends and before app is created",
+    "description": "",
+    "defaultValue": null,
+    "variableType": {
+      "type": "StringType"
+    }
+  }
+
+}

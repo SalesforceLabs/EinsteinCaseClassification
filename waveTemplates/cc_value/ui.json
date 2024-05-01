@@ -1,0 +1,56 @@
+{
+  "pages" : [
+    {
+      "title":"Enter fields and Auto-Triage thresholds set up in Einstein Case Classification (You can select up to 10 fields, with a max of 3 look-up fields)",
+      "variables":[
+        {"name": "CC_Field1"},
+        {"name": "CC_Field1_Threshold" },
+        {"name": "CC_Field2"},
+        {"name": "CC_Field2_Threshold"},
+        {"name": "CC_Field3"},
+        {"name": "CC_Field3_Threshold"},
+        {"name": "CC_Field4"},
+        {"name": "CC_Field4_Threshold"},
+        {"name": "Add_More_Fields"}
+      ]
+    },
+    {
+      "title":"Add a few more fields and thresholds as defined in Einstein Case Classification (You can select up to 10 fields, with a max of 3 look-up fields)",
+      "condition": "{{Variables.Add_More_Fields}}",
+      "variables":[
+        {"name": "CC_Field5"},
+        {"name": "CC_Field5_Threshold"},
+        {"name": "CC_Field6"},
+        {"name": "CC_Field6_Threshold"},
+        {"name": "CC_Field7"},
+        {"name": "CC_Field7_Threshold"},
+        {"name": "CC_Field8"},
+        {"name": "CC_Field8_Threshold"},
+        {"name": "CC_Field9"},
+        {"name": "CC_Field9_Threshold"},
+        {"name": "CC_Field10"},
+        {"name": "CC_Field10_Threshold"}
+      ]
+    },
+    {
+      "title":"Pick 4 dimensions to measure Case Classification performance ",
+      "condition": false,
+      "variables":[
+        {"name": "FilterDimension1"},
+        {"name": "FilterDimension2"},
+        {"name": "FilterDimension3"},
+        {"name": "FilterDimension4"}
+      ]
+    },
+    {
+      "title":"Finally: Some basic cost/saving assumptions",
+      "condition": false,
+      "variables":[
+        {"name": "AutoTriageSecondsSaved"},
+        {"name": "PartialTriageSecondsSaved"},
+        {"name": "AgentHourCost"}
+      ]
+    }
+  ],
+  "displayMessages" : [ ]
+}

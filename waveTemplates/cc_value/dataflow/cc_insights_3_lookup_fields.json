@@ -1,0 +1,581 @@
+{
+  "notificationLevel": "",
+  "workflowDefinition": {
+    "Join_Cases_RecordInsights": {
+      "action": "augment",
+      "parameters": {
+        "right_key": ["TargetId"],
+        "left": "Extract_Cases",
+        "left_key": ["Id"],
+        "right_select": ["NumberOfRecordInsights"],
+        "right": "Compute_NumberInsights",
+        "relationship": "RI",
+        "operation": "LookupMultiValue"
+      }
+    },
+    "Extract_AIRecordInsights": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "CreatedDate"},
+          {"name": "Id"},
+          {"name": "Name"},
+          {"name": "PredictionField"},
+          {"name": "Status"},
+          {"name": "RunStartTime"},
+          {"name": "RunGuid"},
+          {"name": "TargetId"},
+          {"name": "TargetSobjectType"},
+          {"name": "Type"}
+        ],
+        "object": "AIRecordInsight"
+      }
+    },
+    "ComputeRIOutcome": {
+      "action": "computeExpression",
+      "parameters": {
+        "source": "ComputeRIPoints",
+        "mergeWithSource": true,
+        "computedFields": [
+          {
+            "defaultValue": "Inaccurate",
+            "name": "RIOutcome",
+            "saqlExpression": "case\n\nwhen ('IV.OutcomePoints' == -101) then \"Inaccurate\"\nwhen ('IV.OutcomePoints' == -100) then \"Top3\"\nwhen ('IV.OutcomePoints' == 100) then \"AT Correct\"\nwhen ('IV.OutcomePoints' == 80) then \"Top1\"\nwhen ('IV.OutcomePoints' == -21 ) then \"AT Incorrect\"\nwhen ('IV.OutcomePoints' == -20 ) then \"Top3\"\n\nend\n\n",
+            "label": "RI Outcome",
+            "type": "Text"
+          },
+          {
+            "defaultValue": "0",
+            "precision": 3,
+            "name": "PicklistsAutoTriaged",
+            "saqlExpression": "case\nwhen ('IV.OutcomePoints' == 100) then 1\nelse 0\nend\n\n",
+            "scale": 0,
+            "label": "PicklistsAutoTriaged",
+            "type": "Numeric"
+          },
+          {
+            "defaultValue": "0",
+            "precision": 3,
+            "name": "PicklistsInTop3",
+            "saqlExpression": "case\n\nwhen ('IV.OutcomePoints' == -100) then 1\nwhen ('IV.OutcomePoints' == 80) then 1\nwhen ('IV.OutcomePoints' == -20 ) then 1\nelse 0 \nend\n\n",
+            "scale": 0,
+            "label": "Number of Picklists InTop3",
+            "type": "Numeric"
+          },
+          {
+            "defaultValue": "0",
+            "precision": 3,
+            "saqlExpression": "case\nwhen ('IV.OutcomePoints' == -101) then 1\nelse 0\nend",
+            "name": "PicklistsInaccurate",
+            "scale": 0,
+            "label": "PicklistsInaccurate",
+            "type": "Numeric"
+          },
+          {
+            "precision": 100,
+            "name": "PredictionLabel",
+            "saqlExpression": "case PredictionField  \nwhen \"Case.ailabs__Case_Type_Lookup__c\" then \"Case Type (Lookup)\" \nwhen \"Case.ailabs__Parent_Type_Lookup__c\" then \"Parent Type (Lookup)\" \nwhen \"Case.ailabs__Division_Lookup__c\" then \"Division (Lookup)\"  \nend",
+            "label": "PredictionLabel",
+            "type": "Text"
+          }
+        ]
+      }
+    },
+    "Join_IV_With_RI_Outcome": {
+      "action": "augment",
+      "parameters": {
+        "right_key": ["Id"],
+        "left": "ComputeRecommendationOutcome",
+        "left_key": ["AiRecordInsightId"],
+        "right_select": [
+          "RIOutcome",
+          "PicklistsAutoTriaged",
+          "PicklistsInTop3",
+          "PicklistsInaccurate",
+          "PredictionLabel"
+        ],
+        "right": "ComputeRIOutcome",
+        "relationship": "RI",
+        "operation": "LookupSingleValue"
+      }
+    },
+    "FilterTop3InsightValues": {
+      "action": "filter",
+      "parameters": {
+        "source": "Compute_InsightValueRank",
+        "saqlFilter": "'Rank' <= 3"
+      }
+    },
+    
+    "Extract_AIInsightValue": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "AiRecordInsightId"},
+          {"name": "Confidence"},
+          {"name": "CreatedDate"},
+          {"name": "Id"},
+          {"name": "Name"},
+          {"name": "SobjectLookupValueId"},
+          {"name": "SobjectType"},
+          {"name": "Value"},
+          {"name": "ValueType"}
+        ],
+        "object": "AIInsightValue"
+      }
+    },
+    "Join_AIIV_AIRI": {
+      "action": "augment",
+      "parameters": {
+        "right_key": ["Id"],
+        "left": "Extract_AIInsightValue",
+        "left_key": ["AiRecordInsightId"],
+        "right_select": ["PredictionField"],
+        "right": "Extract_AIRecordInsights",
+        "relationship": "RI",
+        "operation": "LookupSingleValue"
+      }
+    },
+    "Extract_Object_1": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "Id"},
+          {"name": "Name"}
+        ],
+        "object": "AIInsightValue"
+      }
+    },
+    "Join_AIIV_With_ActualLookup1": {
+      "action": "augment",
+      "parameters": {
+        "right_key": ["Id"],
+        "left": "Join_IV_With_RI",
+        "left_key": ["RI.Case.ailabs__Case_Type_Lookup__c"],
+        "right_select": ["Name"],
+        "right": "Extract_Object_1",
+        "relationship": "ActualLookup1",
+        "operation": "LookupSingleValue"
+      }
+    },
+    "Join_AIV_Lookup1": {
+      "action": "augment",
+      "parameters": {
+        "right_key": ["Id"],
+        "left": "Join_AIIV_AIRI",
+        "left_key": ["SobjectLookupValueId"],
+        "right_select": ["Name"],
+        "right": "Extract_Object_1",
+        "relationship": "RecommendationLookup1",
+        "operation": "LookupSingleValue"
+      }
+    },
+    "Compute_Recommendation": {
+      "action": "computeExpression",
+      "parameters": {
+        "source": "FilterTop3InsightValues",
+        "mergeWithSource": true,
+        "computedFields": [{
+          "precision": 80,
+          "name": "Recommendation",
+          "saqlExpression": "case \nwhen 'ValueType'==\"Enum\" then 'Value' \nwhen 'RI.PredictionField' ==\"Case.ailabs__Case_Type_Lookup__c\" then 'RecommendationLookup1.Name'  \nwhen 'RI.PredictionField' ==\"Case.ailabs__Parent_Type_Lookup__c\" then 'RecommendationLookup2.Name'  \nelse \"Invalid\"  \nend",
+          "label": "Recommendation",
+          "type": "Text"
+        }]
+      }
+    },
+    "Join_AIRecordInsight_Case": {
+      "action": "augment",
+      "parameters": {
+        "right_key": ["Id"],
+        "left": "Compute_NumberInsights",
+        "left_key": ["TargetId"],
+        "right_select": [
+          "RI.NumberOfRecordInsights",
+          "HasRecordInsights",
+          "ClosedDate",
+          "CreatedDate",
+          "Description",
+          "Id",
+          "Status",
+          "Subject",
+          "IsClosed"
+        ],
+        "right": "Compute_HasRecordInsights_And_CaseHandlingTime",
+        "relationship": "Case",
+        "operation": "LookupSingleValue"
+      }
+    },
+    "ComputeRIPoints": {
+      "action": "augment",
+      "parameters": {
+        "right_key": ["AiRecordInsightId"],
+        "left": "Join_AIRecordInsight_Case",
+        "left_key": ["Id"],
+        "right_select": ["OutcomePoints"],
+        "right": "ComputeRecommendationOutcome",
+        "relationship": "IV",
+        "operation": "LookupMultiValue"
+      }
+    },
+    "Register_AIRecordInsights": {
+      "action": "sfdcRegister",
+      "parameters": {
+        "name": "AIRecordInsights",
+        "alias": "${App.Datasets.AIRecordInsights_tp.FullyQualifiedName}",
+        "source": "ComputeRIOutcome"
+      }
+    },
+    "Compute_InsightValueRank": {
+      "action": "computeRelative",
+      "parameters": {
+        "partitionBy": ["AiRecordInsightId"],
+        "orderBy": [{
+          "name": "Confidence",
+          "direction": "desc"
+        }],
+        "source": "Join_AIV_Lookup3",
+        "computedFields": [{
+          "expression": {
+            "default": "1",
+            "saqlExpression": "previous(Rank) + 1",
+            "scale": 0,
+            "type": "Numeric"
+          },
+          "name": "Rank",
+          "label": "Rank"
+        }]
+      }
+    },
+    "ComputeRecommendationOutcome": {
+      "action": "computeExpression",
+      "parameters": {
+        "source": "ComputeActualAndSetThresholds",
+        "mergeWithSource": true,
+        "computedFields": [
+          {
+            "precision": 20,
+            "name": "RecommendationOutcome",
+            "saqlExpression": "case \n\nwhen ('Rank'==1 && 'Confidence' >= 'AutoTriageConfidenceThreshold' &&  'Recommendation'=='Actual' ) then \"AutoTriagedCorrect\" \n\nwhen ('Rank'==1 && 'Confidence' >= 'AutoTriageConfidenceThreshold' &&  'Recommendation' !='Actual' ) then \"AutoTriagedIncorrect\" \n\nwhen ('Rank'==1 && 'Confidence' < 'AutoTriageConfidenceThreshold' &&  'Recommendation'=='Actual' ) then \"Top1 Accurate\" \n\nwhen ('Rank'<=3 &&  'Recommendation'=='Actual' ) then \"Top3 Accurate\" \n\nelse \"Inaccurate\"\n\nend",
+            "label": "RecommendationOutcome",
+            "type": "Text"
+          },
+          {
+            "defaultValue": "0",
+            "precision": 3,
+            "name": "OutcomePoints",
+            "saqlExpression": "case \n\nwhen ('Rank'==3 &&  'Recommendation'=='Actual' ) then 1\nwhen ('Rank'==2 &&  'Recommendation'=='Actual' ) then 1\n\nwhen ('Rank'==1 &&  'Recommendation'=='Actual' &&  'Confidence' >= 'AutoTriageConfidenceThreshold') then 100\n\nwhen ('Rank'==1 &&  'Recommendation'=='Actual' &&  'Confidence' < 'AutoTriageConfidenceThreshold') then 80\n\nwhen ('Rank'==1 &&  'Recommendation'!='Actual' &&  'Confidence' >= 'AutoTriageConfidenceThreshold'  ) then -21\n\nwhen ('Rank'==1 &&  'Recommendation'!='Actual' ) then -101\n\nend ",
+            "scale": 0,
+            "label": "OutcomePoints",
+            "type": "Numeric"
+          }
+        ]
+      }
+    },
+    "Compute_CaseOutcome": {
+      "action": "computeExpression",
+      "parameters": {
+        "source": "Filter_Cases_Without_RI",
+        "mergeWithSource": true,
+        "computedFields": [{
+          "precision": 15,
+          "name": "CaseOutcome",
+          "saqlExpression": "case \nwhen ('Outcomes.PicklistsAutoTriaged' == 2) then \"AT Correct\"\nwhen ('Outcomes.PicklistsAutoTriaged' < 2 && 'Outcomes.PicklistsInTop3' > 0) then \"Top3\"\nwhen ('Outcomes.PicklistsInaccurate'  > 0 && 'Outcomes.PicklistsInTop3' == 0) then \"Inaccurate\"\nelse \"Other\"\nend",
+          "label": "CaseOutcome",
+          "type": "Text"
+        }]
+      }
+    },
+    "FilterRIsToSelectedCCFields": {
+      "action": "filter",
+      "parameters": {
+        "source": "Extract_AIRecordInsights",
+        "saqlFilter": "ComputedInAPEX"
+      }
+    },
+
+
+    "ComputeActualAndSetThresholds": {
+      "action": "computeExpression",
+      "parameters": {
+        "source": "Join_AIIV_With_ActualLookup3",
+        "mergeWithSource": true,
+        "computedFields": [
+          {
+            "defaultValue": "Blank",
+            "precision": 100,
+            "name": "Actual",
+            "saqlExpression": "case 'RI.PredictionField' \nwhen \"Case.ailabs__Case_Type_Lookup__c\" then 'ActualLookup1.Name' \nwhen \"Case.ailabs__Parent_Type_Lookup__c\" then 'ActualLookup2.Name'  \nend",
+            "label": "Actual",
+            "type": "Text"
+          },
+          {
+            "defaultValue": "-1",
+            "precision": 5,
+            "saqlExpression": "case 'RI.PredictionField' \nwhen \"Case.ailabs__Case_Type_Lookup__c\" then 85 \nwhen \"Case.ailabs__Parent_Type_Lookup__c\" then 85  \nend",
+            "name": "AutoTriageConfidenceThreshold",
+            "scale": 0,
+            "label": "AutoTriageConfidenceThreshold",
+            "type": "Numeric"
+          },
+          {
+            "precision": 20,
+            "name": "YMD",
+            "saqlExpression": "'RI.Case.CreatedDate_Year' + \"~~~\" + 'RI.Case.CreatedDate_Month' + \"~~~\" + 'RI.Case.CreatedDate_Day'",
+            "label": "YMD",
+            "type": "Text"
+          },
+          {
+            "precision": 15,
+            "name": "YM",
+            "saqlExpression": "'RI.Case.CreatedDate_Year' + \"~~~\" + 'RI.Case.CreatedDate_Month' ",
+            "label": "YM",
+            "type": "Text"
+          },
+          {
+            "precision": 15,
+            "name": "YW",
+            "saqlExpression": "'RI.Case.CreatedDate_Year' + \"~~~\" + 'RI.Case.CreatedDate_Week' ",
+            "label": "YW",
+            "type": "Text"
+          }
+        ]
+      }
+    },
+    "Join_IV_With_RI": {
+      "action": "augment",
+      "parameters": {
+        "right_key": ["Id"],
+        "left": "Compute_Recommendation",
+        "left_key": ["AiRecordInsightId"],
+        "right_select": [
+          "Case.HasRecordInsights",
+          "Case.RI.NumberOfRecordInsights",
+          "CreatedDate",
+          "TargetId",
+          "TargetSobjectType",
+          "Type",
+          "RunGuid",
+          "RunStartTime",
+          "Id",
+          "Case.Id",
+          "Case.CreatedDate",
+          "Case.ClosedDate",
+          "Case.Description",
+          "Case.Subject",
+          "Case.Status",
+          "Case.IsClosed"
+
+        ],
+        "right": "Join_AIRecordInsight_Case",
+        "relationship": "RI",
+        "operation": "LookupSingleValue"
+      }
+    },
+    "Compute_NumberInsights": {
+      "action": "computeExpression",
+      "parameters": {
+        "source": "FilterRIsToSelectedCCFields",
+        "mergeWithSource": true,
+        "computedFields": [{
+          "defaultValue": "0",
+          "precision": 10,
+          "name": "NumberOfRecordInsights",
+          "saqlExpression": "1",
+          "scale": 0,
+          "label": "NumberOfRecordInsights",
+          "type": "Numeric"
+        }]
+      }
+    },
+    "Compute_HasRecordInsights_And_CaseHandlingTime": {
+      "action": "computeExpression",
+      "parameters": {
+        "source": "Join_Cases_RecordInsights",
+        "mergeWithSource": true,
+        "computedFields": [
+          {
+            "defaultValue": "false",
+            "name": "HasRecordInsights",
+            "saqlExpression": "case when 'RI.NumberOfRecordInsights' > 0 then \"true\" else \"false\" end",
+            "label": "HasRecordInsights?",
+            "type": "Text"
+          },
+          {
+            "defaultValue": "0",
+            "precision": 3,
+            "saqlExpression": "(ClosedDate_sec_epoch - CreatedDate_sec_epoch)/3600",
+            "name": "CaseHandlingTimeHours",
+            "scale": 2,
+            "label": "CaseHandlingTimeHours",
+            "type": "Numeric"
+          },
+          {
+            "defaultValue": "0",
+            "precision": 3,
+            "saqlExpression": "(ClosedDate_sec_epoch - CreatedDate_sec_epoch)/60",
+            "name": "CaseHandlingTimeMinutes",
+            "scale": 2,
+            "label": "CaseHandlingTimeMinutes",
+            "type": "Numeric"
+          },
+          {
+            "precision": 20,
+            "saqlExpression": "'CreatedDate_Year' + \"~~~\" + 'CreatedDate_Month' + \"~~~\" + 'CreatedDate_Day'",
+            "name": "YMD",
+            "label": "YMD",
+            "type": "Text"
+          },
+          {
+            "precision": 15,
+            "saqlExpression": "'CreatedDate_Year' + \"~~~\" + 'CreatedDate_Month' ",
+            "name": "YM",
+            "label": "YM",
+            "type": "Text"
+          },
+          {
+            "precision": 15,
+            "saqlExpression": "'CreatedDate_Year' + \"~~~\" + 'CreatedDate_Week' ",
+            "name": "YW",
+            "label": "YW",
+            "type": "Text"
+          }
+        ]
+      }
+    },
+    "Join_Cases_With_RI_Outcome": {
+      "action": "augment",
+      "parameters": {
+        "right_key": ["Case.Id"],
+        "left": "Compute_HasRecordInsights_And_CaseHandlingTime",
+        "left_key": ["Id"],
+        "right_select": [
+          "PicklistsAutoTriaged",
+          "PicklistsInTop3",
+          "PicklistsInaccurate"
+        ],
+        "right": "ComputeRIOutcome",
+        "relationship": "Outcomes",
+        "operation": "LookupMultiValue"
+      }
+    },
+    "Register_AIInsightValue": {
+      "action": "sfdcRegister",
+      "parameters": {
+        "name": "AIInsightValue",
+        "alias": "${App.Datasets.AIInsightValue_tp.FullyQualifiedName}",
+        "source": "Join_IV_With_RI_Outcome"
+      }
+    },
+    "Filter_Cases_Without_RI": {
+      "action": "filter",
+      "parameters": {
+        "source": "Join_Cases_With_RI_Outcome",
+        "saqlFilter": "HasRecordInsights==\"true\""
+      }
+    },
+    "Register_Cases": {
+      "action": "sfdcRegister",
+      "parameters": {
+        "name": "Case",
+        "alias": "${App.Datasets.Case_tp.FullyQualifiedName}",
+        "source": "Compute_CaseOutcome"
+      }
+    },
+    "Extract_Cases": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "Id"},
+          {"name": "CreatedDate"},
+          {"name": "ClosedDate"},
+          {"name": "Description"},
+          {"name": "Subject"},
+          {"name": "Status"},
+          {"name": "IsClosed"}
+
+        ],
+        "object": "Case"
+      }
+    },
+    "Extract_Object_2": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "Id"},
+          {"name": "Name"}
+        ],
+        "object": "AIInsightValue"
+      }
+    },
+    "Join_AIV_Lookup2": {
+      "action": "augment",
+      "parameters": {
+        "operation": "LookupSingleValue",
+        "left": "Join_AIV_Lookup1",
+        "left_key": ["SobjectLookupValueId"],
+        "relationship": "RecommendationLookup2",
+        "right": "Extract_Object_2",
+        "right_key": ["Id"],
+        "right_select": ["Name"]
+      }
+    },
+    "Join_AIIV_With_ActualLookup2": {
+      "action": "augment",
+      "parameters": {
+        "operation": "LookupSingleValue",
+        "left": "Join_AIIV_With_ActualLookup1",
+        "left_key": ["RI.Case.ailabs__Parent_Type_Lookup__c"],
+        "relationship": "ActualLookup2",
+        "right": "Extract_Object_2",
+        "right_key": ["Id"],
+        "right_select": ["Name"]
+      }
+    },
+    "Extract_Object_3": {
+      "action": "sfdcDigest",
+      "parameters": {
+        "fields": [
+          {"name": "Id"},
+          {"name": "Name"}
+        ],
+        "object": "AIInsightValue"
+      }
+    },
+    "Join_AIV_Lookup3": {
+      "action": "augment",
+      "parameters": {
+        "operation": "LookupSingleValue",
+        "left": "Join_AIV_Lookup2",
+        "left_key": ["SobjectLookupValueId"],
+        "relationship": "RecommendationLookup3",
+        "right": "Extract_Object_3",
+        "right_key": ["Id"],
+        "right_select": ["Name"]
+      }
+    },
+    "Join_AIIV_With_ActualLookup3": {
+      "action": "augment",
+      "parameters": {
+        "operation": "LookupSingleValue",
+        "left": "Join_AIIV_With_ActualLookup2",
+        "left_key": ["RI.Case.ailabs__Division_Lookup__c"],
+        "relationship": "ActualLookup3",
+        "right": "Extract_Object_3",
+        "right_key": ["Id"],
+        "right_select": ["Name"]
+      }
+    }
+  },
+  "_type": "dataflow",
+  "description": "cc-insights",
+  "MasterLabel": "cc-insights",
+  "nextRun": "",
+  "WorkflowStatus": "Inactive",
+  "isDeletable": true,
+  "longRunningAlertInMins": "",
+  "DataflowType": "USER",
+  "name": "ailabs__cc_insights_3_lookup_fields",
+  "_url": "/insights/internal_api/v1.0/esObject/workflow//json",
+  "_uid": ""
+}
